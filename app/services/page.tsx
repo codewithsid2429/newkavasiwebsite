@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import AnimatedBackground from '../../components/AnimatedBackground';
+import { useTheme } from '../../components/ThemeProvider';
 
 const detailedServices = [
   {
@@ -47,13 +48,17 @@ const detailedServices = [
   }
 ];
 
-
-
 export default function Services() {
+  const { theme } = useTheme();
+
   return (
-    <div className="relative min-h-screen pt-32 pb-20 px-6 md:px-10 overflow-hidden bg-black selection:bg-purple-500/30">
+    <div className="relative min-h-screen pt-32 pb-20 px-6 md:px-10 overflow-hidden selection:bg-purple-500/30">
       <AnimatedBackground />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/10 via-black to-black z-0 pointer-events-none" />
+      <div
+        className={`absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] z-0 pointer-events-none ${
+          theme === 'dark' ? 'from-purple-900/10 via-black to-black' : 'from-purple-200/40 via-slate-50 to-slate-50'
+        }`}
+      />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Hero */}
@@ -63,13 +68,19 @@ export default function Services() {
           transition={{ duration: 0.6 }}
           className="text-center max-w-3xl mx-auto mb-24"
         >
-          <span className="inline-block px-4 py-1.5 rounded-full bg-white/5 text-purple-400 text-xs font-semibold tracking-wider mb-6 border border-white/10 backdrop-blur-md">
+          <span className={`inline-block px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider mb-6 border backdrop-blur-md ${
+            theme === 'dark' ? 'bg-white/5 text-purple-400 border-white/10' : 'bg-purple-50 text-purple-600 border-purple-200'
+          }`}>
             WHAT WE OFFER
           </span>
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 bg-gradient-to-r from-white via-white to-white/60 bg-clip-text text-transparent">
+          <h1 className={`text-4xl md:text-6xl font-bold tracking-tight mb-6 ${
+            theme === 'dark' ? 'text-white' : 'text-slate-900'
+          }`}>
             Our Core Services
           </h1>
-          <p className="text-lg md:text-xl text-white/50 leading-relaxed font-light">
+          <p className={`text-lg md:text-xl leading-relaxed font-light ${
+            theme === 'dark' ? 'text-white/50' : 'text-slate-600'
+          }`}>
             We build state-of-the-art web applications, implement automated AI workflows, and design stunning digital experiences to expand your brand's operations.
           </p>
         </motion.div>
@@ -83,22 +94,30 @@ export default function Services() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, delay: idx * 0.1 }}
-              className={`group relative p-8 md:p-10 rounded-[2rem] bg-white/[0.02] border border-white/[0.06] hover:bg-white/[0.04] transition-all duration-500 flex flex-col justify-between ${service.border}`}
+              className={`group relative p-8 md:p-10 rounded-[2rem] border transition-all duration-500 flex flex-col justify-between ${
+                theme === 'dark'
+                  ? 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04]'
+                  : 'bg-white border-slate-200 hover:border-purple-300 shadow-md'
+              } ${service.border}`}
             >
               <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500 rounded-[2rem]`} />
               <div>
-                <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6">
+                <div className={`w-14 h-14 rounded-2xl border flex items-center justify-center mb-6 ${
+                  theme === 'dark' ? 'bg-white/5 border-white/10' : 'bg-slate-100 border-slate-200'
+                }`}>
                   {service.icon}
                 </div>
-                <h3 className="text-2xl font-bold mb-1 text-white">{service.title}</h3>
-                <p className="text-purple-400 text-sm font-medium mb-4">{service.subtitle}</p>
-                <p className="text-white/50 text-sm leading-relaxed mb-6 font-light">{service.desc}</p>
+                <h3 className={`text-2xl font-bold mb-1 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{service.title}</h3>
+                <p className="text-purple-500 text-sm font-medium mb-4">{service.subtitle}</p>
+                <p className={`text-sm leading-relaxed mb-6 font-light ${theme === 'dark' ? 'text-white/50' : 'text-slate-600'}`}>{service.desc}</p>
               </div>
 
               <div>
                 <div className="flex flex-wrap gap-2 mb-6">
                   {service.tech.map(tag => (
-                    <span key={tag} className="text-[10px] px-2.5 py-1 rounded-full bg-white/5 border border-white/5 text-white/60 uppercase tracking-wider font-semibold">
+                    <span key={tag} className={`text-[10px] px-2.5 py-1 rounded-full border uppercase tracking-wider font-semibold ${
+                      theme === 'dark' ? 'bg-white/5 border-white/5 text-white/60' : 'bg-slate-100 border-slate-200 text-slate-700'
+                    }`}>
                       {tag}
                     </span>
                   ))}
@@ -114,17 +133,22 @@ export default function Services() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="max-w-4xl mx-auto mb-10 p-8 md:p-16 rounded-[2.5rem] bg-gradient-to-br from-white/[0.03] to-white/[0.01] border border-white/[0.08] backdrop-blur-xl relative overflow-hidden text-center"
+          className={`max-w-4xl mx-auto mb-10 p-8 md:p-16 rounded-[2.5rem] border backdrop-blur-xl relative overflow-hidden text-center ${
+            theme === 'dark'
+              ? 'bg-gradient-to-br from-white/[0.03] to-white/[0.01] border-white/[0.08]'
+              : 'bg-white border-slate-200 shadow-xl'
+          }`}
         >
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/10 via-transparent to-transparent pointer-events-none" />
-          <h2 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight">Project Pricing</h2>
-          <p className="text-white/50 text-base md:text-lg max-w-2xl mx-auto mb-8 font-light leading-relaxed">
-            Our custom development solutions start from <span className="text-purple-400 font-semibold text-lg md:text-xl">₹15,000</span>. 
+          <h2 className={`text-3xl md:text-5xl font-bold mb-6 tracking-tight ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Project Pricing</h2>
+          <p className={`text-base md:text-lg max-w-2xl mx-auto mb-8 font-light leading-relaxed ${theme === 'dark' ? 'text-white/50' : 'text-slate-600'}`}>
+            Our custom development solutions start from <span className="text-purple-500 font-semibold text-lg md:text-xl">₹15,000</span>. 
             Final investment depends entirely on the features, integration details, and system complexity. 
-            For hosting & ongoing updates, standard maintenance packages start at <span className="text-cyan-400 font-semibold">₹5,000/year</span>.
+            For hosting & ongoing updates, standard maintenance packages start at <span className="text-cyan-500 font-semibold">₹5,000/year</span>.
           </p>
           <Link href="/contact" className="inline-block">
-            <button className="px-8 py-4 bg-white text-black hover:bg-purple-100 rounded-full font-bold flex items-center justify-center gap-2 hover:gap-3 transition-all cursor-pointer shadow-[0_0_30px_rgba(255,255,255,0.15)]">
+            <button className={`px-8 py-4 rounded-full font-bold flex items-center justify-center gap-2 hover:gap-3 transition-all cursor-pointer shadow-lg ${
+              theme === 'dark' ? 'bg-white text-black hover:bg-purple-100' : 'bg-slate-900 text-white hover:bg-purple-600'
+            }`}>
               Request a Custom Quote <ArrowRight size={18} />
             </button>
           </Link>
